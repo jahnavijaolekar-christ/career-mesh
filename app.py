@@ -69,6 +69,8 @@ def calculate_ats_scores(resume_text, job_title, required_skills, jd_text):
     return skills_match, jd_match
 
 def get_all_applications():
+    if not os.path.exists(DB_PATH):
+        return []
     wb = openpyxl.load_workbook(DB_PATH)
     ws = wb.active
     apps = []
@@ -132,7 +134,14 @@ def save_application(data, resume_file=None):
     return skills_match, status
 
 # ── Job listings (populated dynamically by Copilot Agent) ────
-JOBS = []
+JOBS = [
+    {"id": 1, "title": "Software Engineer",     "company": "TechCorp",    "location": "Remote",    "type": "Full-time", "description": "Build scalable web applications.",          "skills": "Python, Java, SQL",            "jd": ""},
+    {"id": 2, "title": "Data Analyst",           "company": "DataWorks",   "location": "Bangalore", "type": "Full-time", "description": "Analyze data and generate insights.",       "skills": "Python, SQL, Power BI",        "jd": ""},
+    {"id": 3, "title": "UI/UX Designer",         "company": "CreativeHub", "location": "Mumbai",    "type": "Contract",  "description": "Design beautiful user interfaces.",        "skills": "Figma, Adobe XD, CSS",         "jd": ""},
+    {"id": 4, "title": "Product Manager",        "company": "LaunchPad",   "location": "Delhi",     "type": "Full-time", "description": "Lead product vision and roadmap.",         "skills": "Agile, Jira, Roadmap",         "jd": ""},
+    {"id": 5, "title": "DevOps Engineer",        "company": "CloudBase",   "location": "Remote",    "type": "Full-time", "description": "Manage CI/CD pipelines and infra.",        "skills": "Docker, Kubernetes, AWS",      "jd": ""},
+    {"id": 6, "title": "Marketing Specialist",   "company": "BrandBoost",  "location": "Chennai",   "type": "Part-time", "description": "Drive digital marketing campaigns.",       "skills": "SEO, Google Ads, Content",     "jd": ""},
+]
 
 # ── Routes ───────────────────────────────────────────────────
 @app.route("/")
