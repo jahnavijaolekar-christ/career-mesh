@@ -1,1 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerMesh - Find Your Dream Job</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
 
+<nav class="navbar">
+    <div class="logo">💼 Career<span>Mesh</span></div>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+    </div>
+</nav>
+
+<div class="hero">
+    <h1>Find Your Dream Job on CareerMesh</h1>
+    <p>Browse top opportunities from leading companies</p>
+</div>
+
+<div class="container">
+    <h2 class="section-title">Latest Job Openings</h2>
+    <div class="job-grid">
+        {% for job in jobs %}
+        <div class="job-card">
+            <div class="job-header">
+                <h3>
+                    <a href="/job/{{ job.id }}"
+                       style="color:#4A90D9; text-decoration:none;">
+                        {{ job.title }}
+                    </a>
+                </h3>
+                <span class="badge">{{ job.type }}</span>
+            </div>
+            <p class="company">🏢 {{ job.company }}</p>
+            <p class="location">📍 {{ job.location }}</p>
+            <p class="desc">{{ job.description }}</p>
+            <div style="display:flex; gap:10px; align-items:center;">
+                <a href="/apply/{{ job.id }}" class="btn-apply">Apply Now</a>
+                {% if job.jd %}
+                <a href="/job/{{ job.id }}"
+                   style="color:#4A90D9; font-size:0.85rem;
+                          font-weight:600; text-decoration:underline;">
+                    View JD
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>
