@@ -224,6 +224,7 @@ def post_job_from_agent():
         "job":     new_job
     })
 
+init_db()
+
 if __name__ == "__main__":
-    init_db()
     app.run(debug=False)
