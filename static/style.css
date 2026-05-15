@@ -1,1 +1,555 @@
+below is style.css
 
+/* ════════════════════════════════════════════════════════════
+   JOBBOARD — Naukri-inspired theme for Job Board
+   Sourcing Agent — Happiest Minds Technologies theme
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Reset & Base ─────────────────────────────────────────── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+/* ════════════════════════════════════════════════════════════
+   NAUKRI THEME — Job Board, Dashboard, Apply pages
+   Primary: #4A90D9 (Naukri blue)
+   Accent:  #F5A623 (orange CTA)
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Navbar (Naukri) ──────────────────────────────────────── */
+.navbar {
+    background: #ffffff;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-bottom: 3px solid #4A90D9;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    color: #4A90D9;
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.logo span {
+    color: #F5A623;
+}
+
+.nav-links a {
+    color: #555;
+    text-decoration: none;
+    margin-left: 28px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    padding: 4px 0;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+.nav-links a:hover {
+    color: #4A90D9;
+    border-bottom-color: #4A90D9;
+}
+
+/* ── Hero (Naukri) ────────────────────────────────────────── */
+.hero {
+    background: linear-gradient(135deg, #1a3c6e 0%, #4A90D9 100%);
+    color: white;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.hero h1 {
+    font-size: 2.4rem;
+    margin-bottom: 10px;
+    font-weight: 800;
+}
+
+.hero p {
+    font-size: 1rem;
+    opacity: 0.88;
+}
+
+/* ── Search Bar (Naukri style) ────────────────────────────── */
+.search-bar {
+    background: white;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    max-width: 700px;
+    margin: 24px auto 0;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 14px 18px;
+    border: none;
+    outline: none;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.search-bar button {
+    background: #F5A623;
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.search-bar button:hover {
+    background: #e09515;
+}
+
+/* ── Container ────────────────────────────────────────────── */
+.container {
+    max-width: 1200px;
+    margin: 36px auto;
+    padding: 0 24px;
+}
+
+.section-title {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    color: #1a3c6e;
+    font-weight: 700;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e8e8e8;
+}
+
+/* ── Job Grid (Naukri) ────────────────────────────────────── */
+.job-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 18px;
+}
+
+.job-card {
+    background: white;
+    border-radius: 6px;
+    padding: 20px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+    border: 1px solid #e8e8e8;
+    transition: box-shadow 0.2s, border-color 0.2s;
+    position: relative;
+}
+
+.job-card:hover {
+    box-shadow: 0 4px 16px rgba(74,144,217,0.15);
+    border-color: #4A90D9;
+}
+
+.job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.job-header h3 {
+    font-size: 1.05rem;
+    color: #4A90D9;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.job-header h3:hover {
+    text-decoration: underline;
+}
+
+.badge {
+    background: #eaf4ff;
+    color: #4A90D9;
+    padding: 3px 10px;
+    border-radius: 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    border: 1px solid #c5e0f7;
+}
+
+.company {
+    color: #333;
+    margin-bottom: 5px;
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.location {
+    color: #777;
+    margin-bottom: 10px;
+    font-size: 0.82rem;
+}
+
+.desc {
+    color: #666;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    border-top: 1px dashed #eee;
+    padding-top: 10px;
+}
+
+/* ── Buttons (Naukri) ─────────────────────────────────────── */
+.btn-apply {
+    display: inline-block;
+    background: #F5A623;
+    color: white;
+    padding: 9px 22px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 700;
+    transition: background 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-apply:hover {
+    background: #e09515;
+}
+
+.btn-submit {
+    display: inline-block;
+    background: #F5A623;
+    color: white;
+    padding: 11px 28px;
+    border-radius: 4px;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-right: 12px;
+}
+
+.btn-submit:hover {
+    background: #e09515;
+}
+
+.btn-back {
+    display: inline-block;
+    color: #4A90D9;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.btn-back:hover {
+    text-decoration: underline;
+}
+
+/* ── Form (Naukri) ────────────────────────────────────────── */
+.form-container {
+    max-width: 680px;
+    background: white;
+    padding: 32px;
+    border-radius: 6px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+    border: 1px solid #e8e8e8;
+}
+
+.form-container h2 {
+    font-size: 1.4rem;
+    margin-bottom: 6px;
+    color: #1a3c6e;
+}
+
+.highlight { color: #4A90D9; }
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #444;
+    font-size: 0.88rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 13px;
+    border: 1px solid #d8d8d8;
+    border-radius: 4px;
+    font-size: 0.92rem;
+    transition: border-color 0.2s;
+    background: #fafafa;
+    color: #333;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #4A90D9;
+    background: white;
+}
+
+/* ── Success Page (Naukri) ────────────────────────────────── */
+.success-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.success-box {
+    background: white;
+    border-radius: 8px;
+    padding: 48px 40px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid #e8e8e8;
+    max-width: 480px;
+    width: 100%;
+}
+
+.success-icon { font-size: 3.5rem; margin-bottom: 16px; }
+
+.success-box h2 {
+    font-size: 1.6rem;
+    color: #1a3c6e;
+    margin-bottom: 10px;
+}
+
+.success-box p { color: #666; margin-bottom: 28px; }
+.success-box .btn-apply { margin-right: 12px; }
+
+/* ── Dashboard Table (Naukri) ─────────────────────────────── */
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: 6px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+    border: 1px solid #e8e8e8;
+}
+
+.app-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.app-table th {
+    background: #1a3c6e;
+    color: white;
+    padding: 13px 16px;
+    text-align: left;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.app-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.88rem;
+    color: #444;
+}
+
+.app-table tr:hover td { background: #f0f7ff; }
+.app-table tr:last-child td { border-bottom: none; }
+
+/* ── Empty State ──────────────────────────────────────────── */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #888;
+    font-size: 1rem;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #e8e8e8;
+}
+
+.empty-state a { color: #F5A623; text-decoration: none; font-weight: 600; }
+
+/* ── Resume Upload ────────────────────────────────────────── */
+.file-upload-wrapper {
+    position: relative;
+}
+
+.file-upload-wrapper input[type="file"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.file-upload-box {
+    border: 2px dashed #b0cfe8;
+    border-radius: 6px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    background: #f5faff;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.file-upload-box:hover {
+    border-color: #4A90D9;
+    background: #eaf4ff;
+}
+
+.upload-icon { font-size: 2rem; }
+
+#file-label {
+    color: #4A90D9;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.file-hint {
+    color: #999;
+    font-size: 0.78rem;
+}
+
+.file-upload-box.file-selected {
+    border-color: #2e7d32;
+    background: #f0faf1;
+}
+
+.file-upload-box.file-selected #file-label {
+    color: #2e7d32;
+}
+
+/* ════════════════════════════════════════════════════════════
+   HAPPIEST MINDS THEME — Sourcing Agent pages
+   Primary:    #1B6B72 (HM Teal)
+   Secondary:  #F47920 (HM Orange)
+   Dark:       #1C2B39 (HM Navy)
+   Light bg:   #F0F8F8
+   ════════════════════════════════════════════════════════════ */
+
+.sourcing-page .navbar {
+    background: #1C2B39;
+    border-bottom: 3px solid #F47920;
+}
+
+.sourcing-page .logo { color: #ffffff; }
+.sourcing-page .logo span { color: #F47920; }
+.sourcing-page .nav-links a { color: #aac4cc; }
+.sourcing-page .nav-links a:hover { color: #F47920; border-bottom-color: #F47920; }
+
+.sourcing-page .active-link {
+    color: #F47920 !important;
+    font-weight: 700;
+}
+
+.sourcing-hero {
+    background: linear-gradient(135deg, #1C2B39 0%, #1B6B72 100%);
+    color: white;
+    text-align: center;
+    padding: 44px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.sourcing-hero::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    background: rgba(244,121,32,0.15);
+    border-radius: 50%;
+}
+
+.sourcing-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -30px;
+    width: 250px; height: 250px;
+    background: rgba(27,107,114,0.2);
+    border-radius: 50%;
+}
+
+.sourcing-hero h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+}
+
+.sourcing-hero p {
+    font-size: 0.95rem;
+    opacity: 0.85;
+    position: relative;
+    z-index: 1;
+}
+
+.hm-tagline {
+    font-size: 0.78rem;
+    color: #F47920;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ── Agent Cards (HM) ─────────────────────────────────────── */
+.agent-card {
+    background: white;
+    border-radius: 10px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 12px rgba(27,107,114,0.1);
+    border-left: 5px solid #1B6B72;
+}
+
+.step-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.step-badge {
+    background: #1B6B72;
+    color: white;
+    padding: 4px 14px;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+    text-transform: uppercase;
+}
+/* ── Match Summary ────────────────────────────────────────── */
+.match-summary {
+    background: #e8f4f5;
+    border: 1px solid #a8d4d7;
+    border-left: 4px solid #F47920;
+    border-radius: 4px;
+    padding: 10px 16px;
+    margin-bottom: 16px;
+    font-size: 0.85rem;
+    color: #1C2B39;
+}
