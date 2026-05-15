@@ -1,1 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ job.title }} — CareerMesh</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
 
+<nav class="navbar">
+    <div class="logo">💼 Career<span>Mesh</span></div>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+    </div>
+</nav>
+
+<div class="container" style="max-width:800px;">
+    <div class="jd-card">
+
+        <div class="jd-header">
+            <div>
+                <h1 class="jd-title">{{ job.title }}</h1>
+                <div class="jd-meta">
+                    <span>🏢 {{ job.company }}</span>
+                    <span>📍 {{ job.location }}</span>
+                    <span>⏱️ {{ job.type }}</span>
+                </div>
+            </div>
+            <a href="/apply/{{ job.id }}" class="btn-apply"
+               style="align-self:flex-start;">
+                Apply Now
+            </a>
+        </div>
+
+        <div class="jd-divider"></div>
+
+        {% if job.jd %}
+        <div class="jd-body">
+            <h3>Job Description</h3>
+            <pre class="jd-text">{{ job.jd }}</pre>
+        </div>
+        {% else %}
+        <div class="jd-body">
+            <h3>About the Role</h3>
+            <p>{{ job.description }}</p>
+        </div>
+        {% endif %}
+
+        {% if job.skills %}
+        <div class="jd-skills">
+            <h3>Required Skills</h3>
+            <div class="skills-list">
+                {% for skill in job.skills.split(',') %}
+                <span class="skill-pill">{{ skill.strip() }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="jd-divider"></div>
+
+        <div style="display:flex; gap:12px; margin-top:8px;">
+            <a href="/apply/{{ job.id }}" class="btn-apply">Apply Now</a>
+            <a href="/" class="btn-back">← Back to Jobs</a>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
