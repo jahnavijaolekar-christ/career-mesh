@@ -1,1 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CareerMesh - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .score-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .score-high   { background:#eaf6ec; color:#276230; border:1px solid #b8dfc0; }
+        .score-medium { background:#fff8e1; color:#a05c10; border:1px solid #ffd54f; }
+        .score-low    { background:#ffebee; color:#c62828; border:1px solid #ffcdd2; }
+        .score-none   { background:#f5f5f5; color:#999;    border:1px solid #ddd;    }
 
+        .status-shortlisted {
+            display: inline-block;
+            background: #eaf6ec;
+            color: #276230;
+            border: 1px solid #b8dfc0;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .status-review {
+            display: inline-block;
+            background: #f5f5f5;
+            color: #777;
+            border: 1px solid #ddd;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 32px 0 16px;
+        }
+        .section-divider h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: #eee;
+        }
+
+        .shortlisted-section .app-table tr:hover td {
+            background: #f0faf1;
+        }
+        .shortlisted-section .app-table tbody tr td:first-child {
+            border-left: 4px solid #2e7d32;
+        }
+
+        .review-section .app-table tbody tr td:first-child {
+            border-left: 4px solid #ddd;
+        }
+
+        .summary-bar {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .summary-pill {
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .pill-total       { background:#e3f2fd; color:#1565c0; }
+        .pill-shortlisted { background:#eaf6ec; color:#276230; }
+        .pill-review      { background:#f5f5f5; color:#666;    }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">💼 Career<span>Mesh</span></div>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+    </div>
+</nav>
+
+<div class="container">
+    <h2 class="section-title">📋 Recruiter Dashboard</h2>
+
+    <!-- Summary Bar -->
+    <div class="summary-bar">
+        <span class="summary-pill pill-total">
+            Total Applications: {{ total }}
+        </span>
+        <span class="summary-pill pill-shortlisted">
+            Shortlisted: {{ shortlisted | length }}
+        </span>
+        <span class="summary-pill pill-review">
+            Under Review: {{ under_review | length }}
+        </span>
+    </div>
+
+    <!-- ── Shortlisted Section ── -->
+    {% if shortlisted %}
+    <div class="section-divider shortlisted-header">
+        <h3 style="color:#276230;">🟢 Shortlisted Candidates</h3>
+    </div>
+
+    <div class="table-wrapper shortlisted-section"
+         style="border:1px solid #b8dfc0; margin-bottom:32px;">
+        <table class="app-table">
+            <thead style="background:#276230;">
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Job Title</th>
+                    <th>Experience</th>
+                    <th>Resume</th>
+                    <th>Skills Match</th>
+                    <th>Status</th>
+                    <th>Applied On</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appl in shortlisted %}
+                <tr style="background:#fafffe;">
+                    <td>{{ appl['id'] }}</td>
+                    <td><strong>{{ appl['name'] }}</strong></td>
+                    <td>{{ appl['email'] }}</td>
+                    <td>{{ appl['phone'] }}</td>
+                    <td>{{ appl['job_title'] }}</td>
+                    <td>{{ appl['experience'] }}</td>
+                    <td>
+                        {% if appl['resume'] %}
+                            <a href="/resume/{{ appl['resume'] }}"
+                               target="_blank"
+                               style="color:#4A90D9; font-weight:600;">
+                                📄 View
+                            </a>
+                        {% else %}
+                            <span style="color:#999;">—</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% set sm = appl['skills_match'] | int %}
+                        {% if sm >= 70 %}
+                            <span class="score-badge score-high">{{ sm }}%</span>
+                        {% elif sm >= 40 %}
+                            <span class="score-badge score-medium">{{ sm }}%</span>
+                        {% else %}
+                            <span class="score-badge score-low">{{ sm }}%</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="status-shortlisted">Shortlisted</span>
+                    </td>
+                    <td>{{ appl['applied_on'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <!-- ── Under Review Section ── -->
+    {% if under_review %}
+    <div class="section-divider">
+        <h3 style="color:#777;">⚪ Under Review</h3>
+    </div>
+
+    <div class="table-wrapper review-section">
+        <table class="app-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Job Title</th>
+                    <th>Experience</th>
+                    <th>Resume</th>
+                    <th>Skills Match</th>
+                    <th>Status</th>
+                    <th>Applied On</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appl in under_review %}
+                <tr>
+                    <td>{{ appl['id'] }}</td>
+                    <td>{{ appl['name'] }}</td>
+                    <td>{{ appl['email'] }}</td>
+                    <td>{{ appl['phone'] }}</td>
+                    <td>{{ appl['job_title'] }}</td>
+                    <td>{{ appl['experience'] }}</td>
+                    <td>
+                        {% if appl['resume'] %}
+                            <a href="/resume/{{ appl['resume'] }}"
+                               target="_blank"
+                               style="color:#4A90D9; font-weight:600;">
+                                📄 View
+                            </a>
+                        {% else %}
+                            <span style="color:#999;">—</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% set sm = appl['skills_match'] | int %}
+                        {% if sm >= 40 %}
+                            <span class="score-badge score-medium">{{ sm }}%</span>
+                        {% elif sm > 0 %}
+                            <span class="score-badge score-low">{{ sm }}%</span>
+                        {% else %}
+                            <span class="score-badge score-none">N/A</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="status-review">Under Review</span>
+                    </td>
+                    <td>{{ appl['applied_on'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    {% if not shortlisted and not under_review %}
+    <div class="empty-state">
+        <p>📭 No applications yet. <a href="/">Browse jobs!</a></p>
+    </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
