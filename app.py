@@ -15,6 +15,7 @@ UPLOAD_FOLDER = "database/resumes"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 def init_db():
+    os.makedirs("database", exist_ok=True)
     if not os.path.exists(DB_PATH):
         wb = openpyxl.Workbook()
         ws = wb.active
