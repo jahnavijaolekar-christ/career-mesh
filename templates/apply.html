@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-
 <nav class="navbar">
     <div class="logo">💼 Career<span>Mesh</span></div>
     <div class="nav-links">
@@ -14,12 +13,10 @@
         <a href="/dashboard">Dashboard</a>
     </div>
 </nav>
-
 <div class="container form-container">
     <h2>Apply for: <span class="highlight">{{ job.title }}</span></h2>
     <p class="company">🏢 {{ job.company }} &nbsp;|&nbsp; 📍 {{ job.location }}</p>
-
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST">
         <div class="form-group">
             <label>Full Name</label>
             <input type="text" name="name" placeholder="Enter your full name" required>
@@ -46,37 +43,21 @@
             <textarea name="cover_letter" rows="5" placeholder="Tell us why you're a great fit..."></textarea>
         </div>
         <div class="form-group">
-            <label>Upload Resume <span style="color:#888; font-weight:400">(PDF, DOC, DOCX — Max 5MB)</span></label>
-            <div class="file-upload-wrapper">
-                <input type="file" id="resume-file" name="resume"
-                       accept=".pdf,.doc,.docx" onchange="updateFileName(this)">
-                <div class="file-upload-box" onclick="document.getElementById('resume-file').click()">
-                    <span class="upload-icon">📄</span>
-                    <span id="file-label">Click to upload your resume</span>
-                    <span class="file-hint">PDF, DOC or DOCX</span>
-                </div>
-            </div>
+            <label>Resume <span style="color:#888; font-weight:400">(Paste your resume content below)</span></label>
+            <textarea 
+                name="resume_text" 
+                rows="12" 
+                placeholder="Paste your resume content here — include your skills, experience, education, and achievements..."
+                style="font-family: monospace; font-size: 13px; line-height: 1.6;"
+                required>
+            </textarea>
+            <small style="color:#888; display:block; margin-top:6px;">
+                💡 Tip: Copy all text from your resume and paste it here for best ATS matching results.
+            </small>
         </div>
         <button type="submit" class="btn-submit">Submit Application</button>
         <a href="/" class="btn-back">← Back to Jobs</a>
     </form>
 </div>
-<script>
-function updateFileName(input) {
-    const label = document.getElementById('file-label');
-    const box   = document.querySelector('.file-upload-box');
-    if (input.files && input.files[0]) {
-        const file = input.files[0];
-        if (file.size > 5 * 1024 * 1024) {
-            alert('File size exceeds 5MB. Please upload a smaller file.');
-            input.value = '';
-            return;
-        }
-        label.textContent = '✅ ' + file.name;
-        box.classList.add('file-selected');
-    }
-}
-</script>
-
 </body>
 </html>
