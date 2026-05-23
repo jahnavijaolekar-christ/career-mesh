@@ -4,15 +4,13 @@ from flask_cors import CORS
 import openpyxl
 import os
 from datetime import datetime
-from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 CORS(app)
 
 # ── Excel DB setup ──────────────────────────────────────────
 DB_PATH = "database/applications.xlsx"
-UPLOAD_FOLDER = "database/resumes"
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs("database", exist_ok=True)
 
 def init_db():
     os.makedirs("database", exist_ok=True)
@@ -23,24 +21,10 @@ def init_db():
         ws.append([
             "ID", "Name", "Email", "Phone",
             "Job Title", "Experience", "Cover Letter",
-            "Resume", "Skills Match %", "JD Match %",
+            "Resume Text", "Skills Match %", "JD Match %",
             "Status", "Interview Slot", "Applied On"
         ])
         wb.save(DB_PATH)
-
-def extract_text_from_pdf(filepath):
-    try:
-        import pdfplumber
-        text = ""
-        with pdfplumber.open(filepath) as pdf:
-            for page in pdf.pages:
-                page_text = page.extract_text()
-                if page_text:
-                    text += page_text + "\n"
-        return text.strip()
-    except Exception as e:
-        print(f"PDF extraction error: {e}")
-        return ""
 
 def calculate_ats_scores(resume_text, job_title, required_skills, jd_text):
     if not resume_text:
@@ -84,7 +68,7 @@ def get_all_applications():
                 "job_title":      row[4],
                 "experience":     row[5],
                 "cover_letter":   row[6],
-                "resume":         row[7]  if len(row) > 7  and row[7]  is not None else "",
+                "resume_text":    row[7]  if len(row) > 7  and row[7]  is not None else "",
                 "skills_match":   row[8]  if len(row) > 8  and row[8]  is not None else 0,
                 "jd_match":       row[9]  if len(row) > 9  and row[9]  is not None else 0,
                 "status":         row[10] if len(row) > 10 and row[10] is not None else "Under Review",
@@ -93,27 +77,22 @@ def get_all_applications():
             })
     return apps
 
-def save_application(data, resume_file=None):
+def save_application(data):
     wb     = openpyxl.load_workbook(DB_PATH)
     ws     = wb.active
     new_id = ws.max_row
-    resume_filename = ""
-    skills_match    = 0
-    jd_match        = 0
-    if resume_file and resume_file.filename:
-        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-        filename        = secure_filename(resume_file.filename)
-        resume_filename = f"{new_id}_{filename}"
-        resume_path     = os.path.join(UPLOAD_FOLDER, resume_filename)
-        resume_file.save(resume_path)
-        resume_text = extract_text_from_pdf(resume_path)
-        if resume_text:
-            job             = next((j for j in JOBS if j["title"] == data["job_title"]), None)
-            jd_text         = job.get("jd", job.get("description", "")) if job else ""
-            required_skills = job.get("skills", "") if job else ""
-            skills_match, jd_match = calculate_ats_scores(
-                resume_text, data["job_title"], required_skills, jd_text
-            )
+    skills_match = 0
+    jd_match     = 0
+    resume_text  = data.get("resume_text", "").strip()
+
+    if resume_text:
+        job             = next((j for j in JOBS if j["title"] == data["job_title"]), None)
+        jd_text         = job.get("jd", job.get("description", "")) if job else ""
+        required_skills = job.get("skills", "") if job else ""
+        skills_match, jd_match = calculate_ats_scores(
+            resume_text, data["job_title"], required_skills, jd_text
+        )
+
     status = "Shortlisted" if skills_match >= 70 else "Under Review"
     ws.append([
         new_id,
@@ -123,7 +102,7 @@ def save_application(data, resume_file=None):
         data["job_title"],
         data["experience"],
         data["cover_letter"],
-        resume_filename,
+        resume_text[:5000],  # store first 5000 chars
         skills_match,
         jd_match,
         status,
@@ -133,14 +112,14 @@ def save_application(data, resume_file=None):
     wb.save(DB_PATH)
     return skills_match, status
 
-# ── Job listings (populated dynamically by Copilot Agent) ────
+# ── Job listings ─────────────────────────────────────────────
 JOBS = [
-    {"id": 1, "title": "Software Engineer",     "company": "TechCorp",    "location": "Remote",    "type": "Full-time", "description": "Build scalable web applications.",          "skills": "Python, Java, SQL",            "jd": ""},
-    {"id": 2, "title": "Data Analyst",           "company": "DataWorks",   "location": "Bangalore", "type": "Full-time", "description": "Analyze data and generate insights.",       "skills": "Python, SQL, Power BI",        "jd": ""},
-    {"id": 3, "title": "UI/UX Designer",         "company": "CreativeHub", "location": "Mumbai",    "type": "Contract",  "description": "Design beautiful user interfaces.",        "skills": "Figma, Adobe XD, CSS",         "jd": ""},
-    {"id": 4, "title": "Product Manager",        "company": "LaunchPad",   "location": "Delhi",     "type": "Full-time", "description": "Lead product vision and roadmap.",         "skills": "Agile, Jira, Roadmap",         "jd": ""},
-    {"id": 5, "title": "DevOps Engineer",        "company": "CloudBase",   "location": "Remote",    "type": "Full-time", "description": "Manage CI/CD pipelines and infra.",        "skills": "Docker, Kubernetes, AWS",      "jd": ""},
-    {"id": 6, "title": "Marketing Specialist",   "company": "BrandBoost",  "location": "Chennai",   "type": "Part-time", "description": "Drive digital marketing campaigns.",       "skills": "SEO, Google Ads, Content",     "jd": ""},
+    {"id": 1, "title": "Software Engineer",   "company": "TechCorp",    "location": "Remote",    "type": "Full-time", "description": "Build scalable web applications.",     "skills": "Python, Java, SQL",        "jd": ""},
+    {"id": 2, "title": "Data Analyst",         "company": "DataWorks",   "location": "Bangalore", "type": "Full-time", "description": "Analyze data and generate insights.", "skills": "Python, SQL, Power BI",    "jd": ""},
+    {"id": 3, "title": "UI/UX Designer",       "company": "CreativeHub", "location": "Mumbai",    "type": "Contract",  "description": "Design beautiful user interfaces.",   "skills": "Figma, Adobe XD, CSS",     "jd": ""},
+    {"id": 4, "title": "Product Manager",      "company": "LaunchPad",   "location": "Delhi",     "type": "Full-time", "description": "Lead product vision and roadmap.",    "skills": "Agile, Jira, Roadmap",     "jd": ""},
+    {"id": 5, "title": "DevOps Engineer",      "company": "CloudBase",   "location": "Remote",    "type": "Full-time", "description": "Manage CI/CD pipelines and infra.",   "skills": "Docker, Kubernetes, AWS",  "jd": ""},
+    {"id": 6, "title": "Marketing Specialist", "company": "BrandBoost",  "location": "Chennai",   "type": "Part-time", "description": "Drive digital marketing campaigns.",  "skills": "SEO, Google Ads, Content", "jd": ""},
 ]
 
 # ── Routes ───────────────────────────────────────────────────
@@ -155,7 +134,6 @@ def apply(job_id):
         return "Job not found", 404
     if request.method == "POST":
         try:
-            resume_file = request.files.get("resume")
             save_application({
                 "name":         request.form.get("name", ""),
                 "email":        request.form.get("email", ""),
@@ -163,7 +141,8 @@ def apply(job_id):
                 "job_title":    job["title"],
                 "experience":   request.form.get("experience", ""),
                 "cover_letter": request.form.get("cover_letter", ""),
-            }, resume_file)
+                "resume_text":  request.form.get("resume_text", ""),
+            })
             return redirect(url_for("success"))
         except Exception as e:
             return f"Error submitting application: {e}", 500
@@ -198,7 +177,7 @@ def view_jd(job_id):
 
 @app.route("/resume/<filename>")
 def serve_resume(filename):
-    return send_from_directory(UPLOAD_FOLDER, filename)
+    return send_from_directory("database/resumes", filename)
 
 @app.route("/api/jobs")
 def api_jobs():
