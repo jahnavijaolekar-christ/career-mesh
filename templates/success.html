@@ -1,1 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Application Submitted - CareerMesh</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .success-container {
+            max-width: 600px;
+            margin: 80px auto;
+            text-align: center;
+            padding: 40px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .success-icon {
+            font-size: 72px;
+            margin-bottom: 20px;
+        }
+        .success-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a3c6e;
+            margin-bottom: 12px;
+        }
+        .success-message {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .success-steps {
+            background: #f0f7ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        .success-steps h4 {
+            color: #1a3c6e;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+        .success-steps ol {
+            color: #555;
+            font-size: 14px;
+            line-height: 2;
+            padding-left: 20px;
+        }
+        .btn-home {
+            display: inline-block;
+            background: #F5A623;
+            color: #fff;
+            padding: 12px 32px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 15px;
+            transition: background 0.2s;
+        }
+        .btn-home:hover {
+            background: #e09500;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <div class="logo">💼 Career<span>Mesh</span></div>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+    </div>
+</nav>
 
+<div class="success-container">
+    <div class="success-icon">🎉</div>
+    <div class="success-title">Application Submitted!</div>
+    <p class="success-message">
+        Thank you for applying. Your application has been received 
+        and is currently being reviewed by our team.
+    </p>
+    <div class="success-steps">
+        <h4>📋 What happens next?</h4>
+        <ol>
+            <li>Our ATS system will review your resume</li>
+            <li>Shortlisted candidates will be contacted within 3-5 business days</li>
+            <li>Selected candidates will receive an interview invitation via email</li>
+        </ol>
+    </div>
+    <a href="/" class="btn-home">← Browse More Jobs</a>
+</div>
+</body>
+</html>
